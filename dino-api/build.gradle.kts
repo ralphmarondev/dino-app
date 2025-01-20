@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
+    alias(libs.plugins.kotlin.plugin.serialization)
 }
 
 group = "com.ralphmarondev"
@@ -15,6 +16,8 @@ application {
 
 repositories {
     mavenCentral()
+    google()
+    maven { url = uri("https://plugins.gradle.org/m2/") } // Ensure Gradle Plugin repository is included
 }
 
 dependencies {

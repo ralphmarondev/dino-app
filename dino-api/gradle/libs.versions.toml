@@ -1,5 +1,5 @@
 [versions]
-kotlin-version = "1.9.10"
+kotlin-version = "2.0.0-RC1"
 ktor-version = "3.0.3"
 logback-version = "1.4.14"
 
