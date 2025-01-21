@@ -5,9 +5,6 @@ import io.ktor.http.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 
-// 10.0.2.2 => emulator
-// local_ip => real device
-private const val BASE_URL = "http://192.168.68.104:8080"
 private val dinosaurs = listOf(
     Dino(
         name = "Tyrannosaurus",
@@ -70,14 +67,5 @@ fun Route.randomDino() {
     get("/random-dino") {
         val randomDino = dinosaurs.random()
         call.respond(HttpStatusCode.OK, randomDino)
-    }
-    get("/dino") {
-        call.respond(
-            Dino(
-                name = "Tyrannosaurus",
-                description = "One of the most famous dinosaurs, Tyrannosaurus rex (T. rex) was a fearsome carnivore with powerful jaws and sharp teeth. It lived during the Late Cretaceous period and could grow up to 40 feet long. Its name means \"Tyrant Lizard.\"",
-                imageUrl = "$BASE_URL/dinos/tyrannosaurus.png"
-            )
-        )
     }
 }
