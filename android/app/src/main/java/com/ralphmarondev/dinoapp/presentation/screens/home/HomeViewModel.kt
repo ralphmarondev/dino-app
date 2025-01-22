@@ -16,7 +16,8 @@ class HomeViewModel : ViewModel() {
             id = 1,
             name = "Tyrannosaurus",
             description = "One of the most famous dinosaurs, Tyrannosaurus rex (T. rex) was a fearsome carnivore with powerful jaws and sharp teeth. It lived during the Late Cretaceous period and could grow up to 40 feet long. Its name means \"Tyrant Lizard.\"",
-            imageUrl = "https://scitechdaily.com/images/Tyrannosaurus-rex-Dinosaur.jpg"
+            imageUrl = "https://scitechdaily.com/images/Tyrannosaurus-rex-Dinosaur.jpg",
+            isFavorite = false
         )
     )
     val randomDino: StateFlow<Dino> = _randomDino
@@ -27,7 +28,7 @@ class HomeViewModel : ViewModel() {
             viewModelScope.launch {
                 val dinosaur = dinoApi.getRandomDino()
 
-                if (!_fetchedDino.value.contains(dinosaur.id)) {
+                if (!_fetchedDino.value.contains(dinosaur.id) && !dinosaur.isFavorite) {
                     _randomDino.value = dinosaur
                     // add new dino id to list :>
                     _fetchedDino.value += dinosaur.id
