@@ -1,5 +1,8 @@
 package com.ralphmarondev.dinoapp.presentation.screens.home
 
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.fadeIn
+import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -15,6 +18,7 @@ import androidx.compose.material.icons.outlined.DarkMode
 import androidx.compose.material.icons.outlined.FavoriteBorder
 import androidx.compose.material.icons.outlined.LibraryAdd
 import androidx.compose.material.icons.outlined.LightMode
+import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -24,11 +28,16 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.NavigationBar
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -41,6 +50,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.rememberAsyncImagePainter
+import kotlinx.coroutines.delay
 
 @Composable
 fun HomeScreen(
@@ -51,6 +61,14 @@ fun HomeScreen(
 ) {
     val viewModel: HomeViewModel = viewModel()
     val randomDino by viewModel.randomDino.collectAsState()
+    var showSnackbar by remember { mutableStateOf(false) }
+
+    if (showSnackbar) {
+        LaunchedEffect(Unit) {
+            delay(3000L)
+            showSnackbar = !showSnackbar
+        }
+    }
 
     Scaffold(
         topBar = {
@@ -99,6 +117,30 @@ fun HomeScreen(
         ) {
             item {
                 Column {
+                    AnimatedVisibility(
+                        visible = showSnackbar,
+                        enter = fadeIn(),
+                        exit = fadeOut(),
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(8.dp)
+                    ) {
+                        Card(
+                            shape = RoundedCornerShape(8.dp),
+                            colors = CardDefaults.cardColors(
+                                containerColor = MaterialTheme.colorScheme.primaryContainer,
+                                contentColor = MaterialTheme.colorScheme.onPrimaryContainer
+                            ),
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+                            Text(
+                                text = "Dinosaur saved to favorites!",
+                                modifier = Modifier.padding(16.dp),
+                                fontFamily = FontFamily.Monospace
+                            )
+                        }
+                    }
+
                     Box(
                         modifier = Modifier
                             .fillMaxWidth()
@@ -137,6 +179,22 @@ fun HomeScreen(
                             vertical = 4.dp
                         )
                     )
+                    TextButton(
+                        onClick = {
+                            showSnackbar = !showSnackbar
+                        },
+                        modifier = Modifier
+                            .align(Alignment.End)
+                            .padding(horizontal = 8.dp)
+                    ) {
+                        Text(
+                            text = "Save to favorites",
+                            fontFamily = FontFamily.Monospace,
+                            fontSize = 14.sp,
+                            fontWeight = FontWeight.W400,
+                            color = MaterialTheme.colorScheme.tertiary
+                        )
+                    }
                 }
             }
         }
