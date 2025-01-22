@@ -14,6 +14,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.ralphmarondev.dinoapp.presentation.screens.favorite.FavoriteScreen
 import com.ralphmarondev.dinoapp.presentation.screens.home.HomeScreen
 
 @Composable
@@ -44,18 +45,11 @@ fun AppNavigation(
         }
 
         composable<Routes.Favorites> {
-            Box(
-                modifier = Modifier.fillMaxSize(),
-                contentAlignment = Alignment.Center
-            ) {
-                Text(
-                    text = "Favorites",
-                    fontFamily = FontFamily.Monospace,
-                    fontSize = 18.sp,
-                    color = MaterialTheme.colorScheme.primary,
-                    fontWeight = FontWeight.W500
-                )
-            }
+            FavoriteScreen(
+                navigateBack = {
+                    navController.navigateUp()
+                }
+            )
         }
 
         composable<Routes.NewDinosaur> {
