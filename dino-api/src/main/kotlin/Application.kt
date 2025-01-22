@@ -1,5 +1,6 @@
 package com.ralphmarondev
 
+import com.ralphmarondev.data.database.AppDatabase
 import io.ktor.server.application.*
 import io.ktor.server.engine.*
 import io.ktor.server.netty.*
@@ -17,6 +18,8 @@ fun main(args: Array<String>) {
 
 @Suppress("unused")
 fun Application.module() {
+    AppDatabase.initDatabase()
+
     configureSerialization()
     configureHTTP()
     configureRouting()
