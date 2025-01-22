@@ -18,6 +18,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.FavoriteBorder
+import androidx.compose.material.icons.outlined.LibraryAdd
 import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
@@ -216,6 +218,22 @@ private fun HomeTopBar(
             )
         },
         actions = {
+            IconButton(
+                onClick = { }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.FavoriteBorder,
+                    contentDescription = "Favorite Dinosaurs"
+                )
+            }
+            IconButton(
+                onClick = { }
+            ) {
+                Icon(
+                    imageVector = Icons.Outlined.LibraryAdd,
+                    contentDescription = "New Dinosaur"
+                )
+            }
             IconButton(
                 onClick = toggleDarkTheme
             ) {
