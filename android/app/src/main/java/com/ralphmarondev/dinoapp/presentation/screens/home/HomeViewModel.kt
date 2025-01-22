@@ -22,32 +22,19 @@ class HomeViewModel : ViewModel() {
     val randomDino: StateFlow<Dino> = _randomDino
 
     private val _fetchedDino = MutableStateFlow(listOf(1))
-    private val _count = MutableStateFlow(0)
-
     fun getRandomDino() {
         try {
-            if (_count.value < 4) {
-                viewModelScope.launch {
-                    val dinosaur = dinoApi.getRandomDino()
+            viewModelScope.launch {
+                val dinosaur = dinoApi.getRandomDino()
 
-                    if (!_fetchedDino.value.contains(dinosaur.id)) {
-                        _randomDino.value = dinosaur
-                        // add new dino id to list :>
-                        _fetchedDino.value += dinosaur.id
-                        _count.value++
-                    } else {
-                        getRandomDino()
-                    }
+                if (!_fetchedDino.value.contains(dinosaur.id)) {
+                    _randomDino.value = dinosaur
+                    // add new dino id to list :>
+                    _fetchedDino.value += dinosaur.id
+                } else {
+                    getRandomDino()
                 }
-            } else {
-                _randomDino.value = Dino(
-                    id = -1,
-                    name = "Imissyousaurus",
-                    description = "This cute dinosaur misses you :< Roar!",
-                    imageUrl = "android.resource://com.ralphmarondev.dinoapp/drawable/cute_me"
-                )
             }
-            Log.d("COUNT", "Count: ${_count.value}")
         } catch (e: Exception) {
             Log.e("MainViewModel", "getRandomDino: ${e.message}")
         }
