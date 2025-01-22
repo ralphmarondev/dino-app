@@ -1,4 +1,4 @@
-package com.ralphmarondev.dinoapp
+package com.ralphmarondev.dinoapp.presentation.screens.home
 
 import android.util.Log
 import androidx.lifecycle.ViewModel
@@ -9,11 +9,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MainViewModel : ViewModel() {
-    private val preferences = MyApp.preferences
-    private val _darkTheme = MutableStateFlow(preferences.isDarkTheme())
-    val darkTheme: StateFlow<Boolean> get() = _darkTheme
-
+class HomeViewModel : ViewModel() {
     private val dinoApi = RetrofitInstance.dinoApi
     private val _randomDino = MutableStateFlow(
         Dino(
@@ -55,10 +51,5 @@ class MainViewModel : ViewModel() {
         } catch (e: Exception) {
             Log.e("MainViewModel", "getRandomDino: ${e.message}")
         }
-    }
-
-    fun toggleDarkTheme() {
-        preferences.toggleDarkTheme()
-        _darkTheme.value = preferences.isDarkTheme()
     }
 }
