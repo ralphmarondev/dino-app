@@ -10,6 +10,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
+    private val preferences = MyApp.preferences
+    private val _darkTheme = MutableStateFlow(preferences.isDarkTheme())
+    val darkTheme: StateFlow<Boolean> get() = _darkTheme
+
     private val dinoApi = RetrofitInstance.dinoApi
     private val _randomDino = MutableStateFlow(
         Dino(
@@ -22,7 +26,6 @@ class MainViewModel : ViewModel() {
     val randomDino: StateFlow<Dino> = _randomDino
 
     private val _fetchedDino = MutableStateFlow(listOf(1))
-
     private val _count = MutableStateFlow(0)
 
     fun getRandomDino() {
@@ -52,5 +55,10 @@ class MainViewModel : ViewModel() {
         } catch (e: Exception) {
             Log.e("MainViewModel", "getRandomDino: ${e.message}")
         }
+    }
+
+    fun toggleDarkTheme() {
+        preferences.toggleDarkTheme()
+        _darkTheme.value = preferences.isDarkTheme()
     }
 }

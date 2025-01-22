@@ -18,6 +18,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.DarkMode
+import androidx.compose.material.icons.outlined.LightMode
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ElevatedCard
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -53,11 +54,15 @@ class MainActivity : ComponentActivity() {
         setContent {
             val viewModel: MainViewModel = viewModel()
             val randomDino by viewModel.randomDino.collectAsState()
+            val isDarkTheme by viewModel.darkTheme.collectAsState()
 
-            DinoAppTheme {
+            DinoAppTheme(darkTheme = isDarkTheme) {
                 Scaffold(
                     topBar = {
-                        HomeTopBar()
+                        HomeTopBar(
+                            isDarkTheme = isDarkTheme,
+                            toggleDarkTheme = viewModel::toggleDarkTheme
+                        )
                     },
                     bottomBar = {
                         NavigationBar(
@@ -199,7 +204,10 @@ class MainActivity : ComponentActivity() {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-private fun HomeTopBar() {
+private fun HomeTopBar(
+    isDarkTheme: Boolean,
+    toggleDarkTheme: () -> Unit
+) {
     TopAppBar(
         title = {
             Text(
@@ -209,10 +217,15 @@ private fun HomeTopBar() {
         },
         actions = {
             IconButton(
-                onClick = {}
+                onClick = toggleDarkTheme
             ) {
+                val imageVector = when (isDarkTheme) {
+                    true -> Icons.Outlined.LightMode
+                    false -> Icons.Outlined.DarkMode
+                }
+
                 Icon(
-                    imageVector = Icons.Outlined.DarkMode,
+                    imageVector = imageVector,
                     contentDescription = "Theme Icon"
                 )
             }
