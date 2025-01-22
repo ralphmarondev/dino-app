@@ -4,10 +4,12 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
+import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
@@ -94,38 +96,99 @@ class MainActivity : ComponentActivity() {
                             .padding(innerPadding)
                     ) {
                         item {
-                            Box(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(8.dp)
-                            ) {
-                                Image(
-                                    painter = rememberAsyncImagePainter(randomDino.imageUrl),
-                                    contentDescription = "Dinosaur Image",
-                                    modifier = Modifier
-                                        .fillMaxWidth()
-                                        .height(240.dp)
-                                        .clip(RoundedCornerShape(8.dp)),
-                                    contentScale = ContentScale.Crop
-                                )
-                            }
+                            AnimatedVisibility(visible = randomDino.id != -1) {
+                                Column {
+                                    Box(
+                                        modifier = Modifier
+                                            .fillMaxWidth()
+                                            .padding(8.dp)
+                                    ) {
+                                        Image(
+                                            painter = rememberAsyncImagePainter(randomDino.imageUrl),
+                                            contentDescription = "Dinosaur Image",
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .height(240.dp)
+                                                .clip(RoundedCornerShape(8.dp)),
+                                            contentScale = ContentScale.Crop
+                                        )
+                                    }
 
-                            Text(
-                                text = randomDino.name,
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.W500,
-                                fontSize = 20.sp,
-                                color = MaterialTheme.colorScheme.primary,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                            )
-                            Text(
-                                text = randomDino.description,
-                                fontFamily = FontFamily.Monospace,
-                                fontWeight = FontWeight.W400,
-                                fontSize = 16.sp,
-                                color = MaterialTheme.colorScheme.secondary,
-                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp)
-                            )
+                                    Text(
+                                        text = randomDino.name,
+                                        fontFamily = FontFamily.Monospace,
+                                        fontWeight = FontWeight.W500,
+                                        fontSize = 20.sp,
+                                        color = MaterialTheme.colorScheme.primary,
+                                        modifier = Modifier.padding(
+                                            horizontal = 8.dp,
+                                            vertical = 4.dp
+                                        )
+                                    )
+                                    Text(
+                                        text = randomDino.description,
+                                        fontFamily = FontFamily.Monospace,
+                                        fontWeight = FontWeight.W400,
+                                        fontSize = 16.sp,
+                                        color = MaterialTheme.colorScheme.secondary,
+                                        modifier = Modifier.padding(
+                                            horizontal = 8.dp,
+                                            vertical = 4.dp
+                                        )
+                                    )
+                                }
+                            }
+                        }
+
+                        item {
+                            AnimatedVisibility(visible = randomDino.id == -1) {
+                                ElevatedCard(
+                                    modifier = Modifier
+                                        .padding(8.dp)
+                                ) {
+                                    Column {
+                                        Box(
+                                            modifier = Modifier
+                                                .fillMaxWidth()
+                                                .padding(8.dp)
+                                        ) {
+                                            Image(
+                                                painter = rememberAsyncImagePainter(randomDino.imageUrl),
+                                                contentDescription = "Dinosaur Image",
+                                                modifier = Modifier
+                                                    .fillMaxWidth()
+                                                    .height(320.dp)
+                                                    .clip(RoundedCornerShape(8.dp)),
+                                                contentScale = ContentScale.Crop
+                                            )
+                                        }
+
+                                        Text(
+                                            text = randomDino.name,
+                                            fontFamily = FontFamily.Monospace,
+                                            fontWeight = FontWeight.W500,
+                                            fontSize = 20.sp,
+                                            color = MaterialTheme.colorScheme.primary,
+                                            modifier = Modifier.padding(
+                                                horizontal = 8.dp,
+                                                vertical = 4.dp
+                                            )
+                                        )
+                                        Text(
+                                            text = randomDino.description,
+                                            fontFamily = FontFamily.Monospace,
+                                            fontWeight = FontWeight.W400,
+                                            fontSize = 16.sp,
+                                            color = MaterialTheme.colorScheme.secondary,
+                                            modifier = Modifier.padding(
+                                                horizontal = 8.dp,
+                                                vertical = 4.dp
+                                            )
+                                        )
+                                        Spacer(modifier = Modifier.height(4.dp))
+                                    }
+                                }
+                            }
                         }
                     }
                 }
