@@ -10,6 +10,9 @@ interface DinoApi {
     @GET("/random-dino")
     suspend fun getRandomDino(): Dino
 
+    @GET("/favorite-dinos")
+    suspend fun getFavoriteDinos(): List<Dino>
+
     @PUT("/update-dino/{id}")
     suspend fun updateDino(
         @Path("id") id: Int,
