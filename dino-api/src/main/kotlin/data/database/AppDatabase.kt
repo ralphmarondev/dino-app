@@ -95,4 +95,20 @@ object AppDatabase {
                 .singleOrNull()
         }
     }
+
+    fun getFavoriteDinos(): List<Dino> {
+        return transaction {
+            Dinos.select { Dinos.isFavorite eq true }
+                .map {
+                    Dino(
+                        id = it[Dinos.id],
+                        name = it[Dinos.name],
+                        description = it[Dinos.description],
+                        imageUrl = it[Dinos.imageUrl],
+                        isFavorite = it[Dinos.isFavorite],
+                        isDeleted = it[Dinos.isDeleted]
+                    )
+                }
+        }
+    }
 }

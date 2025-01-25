@@ -20,6 +20,10 @@ fun Route.randomDino() {
         val dinosaurs = AppDatabase.getAllDinos()
         call.respond(HttpStatusCode.OK, dinosaurs)
     }
+    get("/favorite-dinos") {
+        val favoriteDinos = AppDatabase.getFavoriteDinos()
+        call.respond(HttpStatusCode.OK, favoriteDinos)
+    }
     put("/update-dino/{id}") {
         val id = call.parameters["id"]?.toIntOrNull()
 
