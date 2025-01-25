@@ -134,7 +134,10 @@ fun HomeScreen(
                             modifier = Modifier.fillMaxWidth()
                         ) {
                             Text(
-                                text = "Dinosaur saved to favorites!",
+                                text = when (randomDino.isFavorite) {
+                                    true -> "Dinosaur saved to favorites!"
+                                    false -> "Dinosaur removed from favorites!"
+                                },
                                 modifier = Modifier.padding(16.dp),
                                 fontFamily = FontFamily.Monospace
                             )
@@ -181,6 +184,7 @@ fun HomeScreen(
                     )
                     TextButton(
                         onClick = {
+                            viewModel.toggleIsFavorite()
                             showSnackbar = !showSnackbar
                         },
                         modifier = Modifier
@@ -188,7 +192,10 @@ fun HomeScreen(
                             .padding(horizontal = 8.dp)
                     ) {
                         Text(
-                            text = "Save to favorites",
+                            text = when (randomDino.isFavorite) {
+                                true -> "Remove from favorites"
+                                false -> "Save to favorites"
+                            },
                             fontFamily = FontFamily.Monospace,
                             fontSize = 14.sp,
                             fontWeight = FontWeight.W400,

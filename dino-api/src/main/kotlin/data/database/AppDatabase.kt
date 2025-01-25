@@ -20,7 +20,7 @@ object AppDatabase {
     fun initDatabase() {
         try {
             Database.connect(
-                "jdbc:postgresql://localhost:5432/dino_db",
+                url = "jdbc:postgresql://localhost:5432/dino_db",
                 driver = "org.postgresql.Driver",
                 user = "postgres",
                 password = "postgres"
@@ -79,7 +79,8 @@ object AppDatabase {
     fun getRandomDino(): Dino? {
         return transaction {
             Dinos.selectAll()
-                .orderBy(Dinos.id to SortOrder.ASC)
+//                .orderBy(Dinos.id to SortOrder.ASC)
+                .orderBy(Random())
                 .limit(1)
                 .map {
                     Dino(

@@ -36,8 +36,30 @@ class HomeViewModel : ViewModel() {
                     getRandomDino()
                 }
             }
+            Log.d("MainViewModel", "Random dino: ${_randomDino.value}")
         } catch (e: Exception) {
             Log.e("MainViewModel", "getRandomDino: ${e.message}")
+        }
+    }
+
+    fun toggleIsFavorite() {
+        val originalDino = _randomDino.value
+        _randomDino.value = _randomDino.value.copy(isFavorite = !_randomDino.value.isFavorite)
+
+        viewModelScope.launch {
+            try {
+                val response = dinoApi.updateDino(
+                    _randomDino.value.id,
+                    _randomDino.value
+                )
+                if (!response.isSuccessful) {
+                    _randomDino.value = originalDino
+                }
+                Log.d("HomeViewModel", "toggleIsFavorite Success: ${response.body()}")
+            } catch (e: Exception) {
+                _randomDino.value = originalDino
+                Log.e("HomeViewModel", "toggleIsFavorite Error: ${e.message}")
+            }
         }
     }
 }
